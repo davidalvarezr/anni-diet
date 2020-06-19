@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <main-menu></main-menu>
+    <main-menu
+        token="{{$token}}"
+    ></main-menu>
 @endsection

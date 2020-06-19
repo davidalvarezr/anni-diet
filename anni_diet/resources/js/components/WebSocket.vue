@@ -5,10 +5,12 @@
 
                 <b-card header="Test des sockets" border-variant="danger" header-border-variant="danger">
 
-                    String to broadcast:
+                    <p>Infos feu d'artifice:</p>
                     <b-form-group>
-                        <b-input v-model="inputToBroadcast"></b-input>
-                        <b-button @click="broadcast(inputToBroadcast)">ok</b-button>
+                        <b-input placeholder="author" v-model="author"></b-input>
+                        <b-input placeholder="x" v-model="x"></b-input>
+                        <b-input placeholder="y" v-model="y"></b-input>
+                        <b-button @click="broadcast(author)">ok</b-button>
                     </b-form-group>
 
                 </b-card>
@@ -27,12 +29,22 @@
         },
         data() {
             return {
-                inputToBroadcast: '',
+                author: '',
+                x: '',
+                y: '',
             }
         },
         methods: {
-            broadcast: (inputToBroadcast) => {
+            broadcast(inputToBroadcast) {
                 console.log(inputToBroadcast)
+                this.$axios.post('/api/firework/broadcast', {
+                    author: this.author,
+                    x: this.x,
+                    y: this.y,
+                })
+                .then(response => {
+                    console.log(response)
+                })
             }
         },
         computed: {}

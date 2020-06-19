@@ -4,6 +4,8 @@
             <b-col md="8">
                 <b-card header="Menu" bg-variant="default">
 
+                    {{$appName}}
+
                     <b-button class="b-button" variant="danger" @click="goToWebSocket()">
                         Tester la communication WebSocket
                         <b-icon icon="arrow-down-up"></b-icon>
@@ -31,11 +33,27 @@
 </template>
 
 <script>
-    import {goToUrl} from "../helper/helper";
+    import {goToUrl} from "../helper/helper"
 
     export default {
+        props: {
+            token: {
+                type: String,
+                default: null,
+            },
+        },
+
         mounted() {
+            console.log('jean paul')
             console.log('Component mounted.')
+            if (this.token) {
+                console.log('putting token in local storage')
+                localStorage.setItem('access_token', this.token)
+                this.$axios.defaults.headers.common = {'Authorization': `Bearer ${this.token}`}
+            } else {
+                console.log('token prop not found')
+            }
+
         },
 
         methods: {

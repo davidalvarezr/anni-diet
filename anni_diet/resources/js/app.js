@@ -6,14 +6,15 @@
 
 require('bootstrap') // need for the dropdown menu to logout
 
-import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
+import axios from 'axios'
+
+import { BootstrapVue, IconsPlugin } from "bootstrap-vue"
 import Vue from 'vue'
-import MainMenu from "./components/MainMenu";
-import WebSocket from "./components/WebSocket";
+import MainMenu from "./components/MainMenu"
+import WebSocket from "./components/WebSocket"
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
-
 
 /**
  * The following block of code may be used to automatically register your
@@ -35,8 +36,17 @@ Vue.component('web-socket', WebSocket);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.prototype.$appName = 'Anni Diet'
+axios.defaults.headers.common = {
+    'Authorization': `Bearer ${localStorage.access_token}`,
+    'Accept': 'application/json',
+}
+Vue.prototype.$axios = axios
+
 const app = new Vue({
     el: '#app',
-});
+})
 
+// console.log("app.js loaded")
+// console.log(`access token is ${localStorage.access_token}`)
 

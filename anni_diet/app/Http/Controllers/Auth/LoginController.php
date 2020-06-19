@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LoginController extends Controller
 {
@@ -36,5 +41,21 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, User $user)
+    {
+        redirect()->action('HomeController@index')
+            ->with([
+                'user' => $user,
+                'token' => $user->createToken('anni_diet')->accessToken
+            ]);
     }
 }
