@@ -25,6 +25,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "bootstrap-vue": "^2.15.0"
+        "bootstrap-vue": "^2.15.0",
+        "moment": "^2.27.0",
+        "pusher-js": "^6.0.3"
     }
 }

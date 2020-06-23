@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->group(function() {
-   Route::post('firework/broadcast', 'FireworkController@broadcast')->name('firework-api-broadcast');
+Route::middleware('auth:api')->group(function () {
+
+    Route::post('firework/broadcast', 'FireworkController@broadcast')->name('firework-api-broadcast');
+
+    Route::post('pusher/auth', 'PusherController@auth')->name('pusher-api-auth');
+
 });

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\WebSocket\MyEvent;
+use App\WebSocket\FireworkEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,7 +24,7 @@ class FireworkController extends Controller
 
         $validatedData = $validator->validated();
 
-        event(new MyEvent([
+        event(new FireworkEvent([
             'author' => $validatedData['author'],
             'x' => $validatedData['x'],
             'y' => $validatedData['y'],
