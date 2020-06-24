@@ -12,6 +12,10 @@ public class PusherManager : MonoBehaviour
     private Pusher pusher;
     private Channel channel;
 
+    private const string PUSHER_KEY = "8c2980cfa587778b9cf5";
+    private const string PUSHER_CLUSTER = "eu";
+    private const string PUSHER_CHANNEL_NAME = "private-firework";  // "my-channel"
+
     async Task Start()
     {
         if (instance == null)
@@ -31,16 +35,26 @@ public class PusherManager : MonoBehaviour
 
         if (pusher == null)
         {
-            pusher = new Pusher("8c2980cfa587778b9cf5", new PusherOptions()
+            pusher = new Pusher(PUSHER_KEY, new PusherOptions()
             {
-                Cluster = "eu",
+                Cluster = PUSHER_CLUSTER,
                 Encrypted = true
             });
 
             pusher.Error += OnPusherOnError;
             pusher.ConnectionStateChanged += PusherOnConnectionStateChanged;
             pusher.Connected += PusherOnConnected;
-            channel = await pusher.SubscribeAsync("my-channel");
+
+            try
+            {
+                channel = await pusher.SubscribeAsync(PUSHER_CHANNEL_NAME);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"{e.GetType()} - {e.Message}\n{e.StackTrace}");
+            }
+
+            
             channel.Subscribed += OnChannelOnSubscribed;
             await pusher.ConnectAsync();
         }
