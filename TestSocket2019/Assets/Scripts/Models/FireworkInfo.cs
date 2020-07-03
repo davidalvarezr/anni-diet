@@ -1,7 +1,8 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 
 [Serializable]
-public class FireworkInfo 
+public class FireworkInfo : MonoBehaviour
 {
     public string author;
     public string x;
