@@ -14,5 +14,6 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('App.User.{id}', function ($user, $id) {
+    dd('jean-paul');
     return (int) $user->id === (int) $id;
 });

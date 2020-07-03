@@ -52,10 +52,43 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, User $user)
     {
-        redirect()->action('HomeController@index')
-            ->with([
+        // Login from unity
+        if ($request->wantsJson()) {
+            return response()->json([
                 'user' => $user,
                 'token' => $user->createToken('anni_diet')->accessToken
             ]);
+        } else // Login from website
+        {
+            redirect()->action('HomeController@index')
+                ->with([
+                    'user' => $user,
+                    'token' => $user->createToken('anni_diet')->accessToken
+                ]);
+        }
+
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        if (!$request->wantsJson()) {
+            $request->session()->regenerate();
+        }
+
+        $this->clearLoginAttempts($request);
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new Response('', 204)
+            : redirect()->intended($this->redirectPath());
     }
 }
