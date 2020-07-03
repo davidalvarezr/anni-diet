@@ -1,6 +1,6 @@
 <?php
 
-namespace App\WebSocket;
+namespace App\Models;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
