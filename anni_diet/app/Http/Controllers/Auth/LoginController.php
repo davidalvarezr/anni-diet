@@ -6,10 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -24,7 +23,11 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
+        credentials as authUsersCredentials;
+        attemptLogin as authUserAttemptLogin;
+        validateLogin as authUserValidateLogin;
+    }
 
     /**
      * Where to redirect users after login.
@@ -43,6 +46,37 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    protected function validateLogin(Request $request)
+    {
+
+        if ($request->wantsJson()) {
+            $request->validate([
+                'password' => 'required|string',
+            ]);
+        } else {
+            $this->authUserValidateLogin($request);
+        }
+    }
+
+    protected function credentials(Request $request)
+    {
+        if ($request->wantsJson()) {
+            return $request->only('password');
+        } else {
+            return $this->authUsersCredentials($request);
+        }
+    }
+
+    protected function attemptLogin(Request $request)
+    {
+        if ($request->wantsJson()) {
+            $password = $this->credentials($request)['password'];
+            return $this->doesUserWithPasswordExists($password);
+        } else {
+            return $this->authUserAttemptLogin($request);
+        }
+    }
+
     /**
      * The user has been authenticated.
      *
@@ -56,14 +90,14 @@ class LoginController extends Controller
         if ($request->wantsJson()) {
             return response()->json([
                 'user' => $user,
-                'token' => $user->createToken('anni_diet')->accessToken
+                'token' => $user->createToken('anni_diet')->accessToken,
             ]);
         } else // Login from website
         {
             redirect()->action('HomeController@index')
                 ->with([
                     'user' => $user,
-                    'token' => $user->createToken('anni_diet')->accessToken
+                    'token' => $user->createToken('anni_diet')->accessToken,
                 ]);
         }
 
@@ -73,22 +107,49 @@ class LoginController extends Controller
      * Send the response after the user was authenticated.
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response | \Illuminate\Http\RedirectResponse
      */
     protected function sendLoginResponse(Request $request)
     {
+
         if (!$request->wantsJson()) {
             $request->session()->regenerate();
+            $user = $this->guard()->user();
+        } else {
+            $user = $this->userWithThisPassword($request->get('password'));
         }
 
         $this->clearLoginAttempts($request);
 
-        if ($response = $this->authenticated($request, $this->guard()->user())) {
+
+        if ($response = $this->authenticated($request, $user)) {
             return $response;
         }
 
         return $request->wantsJson()
             ? new Response('', 204)
             : redirect()->intended($this->redirectPath());
+    }
+
+    private function doesUserWithPasswordExists($password)
+    {
+        $users = User::all();
+        foreach ($users as $user) {
+            if (Hash::check($password, $user->password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function userWithThisPassword($password)
+    {
+        $users = User::all();
+        foreach ($users as $user) {
+            if (Hash::check($password, $user->password)) {
+                return $user;
+            }
+        }
+        return null;
     }
 }
