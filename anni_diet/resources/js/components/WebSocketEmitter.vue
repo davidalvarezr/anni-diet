@@ -10,6 +10,8 @@
                         <b-input placeholder="author" v-model="author"></b-input>
                         <b-input placeholder="x" v-model="x"></b-input>
                         <b-input placeholder="y" v-model="y"></b-input>
+                        <b-input placeholder="z" v-model="z"></b-input>
+                        <b-input placeholder="type" v-model="type"></b-input>
                         <b-button @click="broadcast(author)">ok</b-button>
                     </b-form-group>
 
@@ -31,17 +33,25 @@
                 author: 'test',
                 x: '1',
                 y: '2',
+                z: '3',
+                type: 'basic',
             }
         },
         methods: {
             broadcast(inputToBroadcast) {
+
+
+
                 this.$axios.post('/api/firework/broadcast', {
                     author: this.author,
                     x: this.x,
                     y: this.y,
+                    z: this.z,
+                    type: this.type,
                 })
                 .then(response => {
                 })
+
             }
         },
         computed: {}
