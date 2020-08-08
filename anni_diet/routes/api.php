@@ -19,4 +19,6 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('pusher/auth', 'PusherController@auth')->name('pusher-api-auth');
 
+    Route::get('protected-resource-test', 'CheckApiController@checkApiAccess')->name('login-check-api-access');
+
 });
