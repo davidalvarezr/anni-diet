@@ -53,10 +53,19 @@
                     }
                 }
             })
+
             this.channel = this.pusher.subscribe('private-firework');
-            this.channel.bind('firework-event', (data) => {
-                this.textarea += `${moment().format('DD.MM.YY LTS')}: ${JSON.stringify(data)}\n`
+
+            this.channel.bind('firework-placement', (data) => {
+                this.textarea += `🎯 ${moment().format('DD.MM.YY LTS')}: ${JSON.stringify(data)}\n`
             });
+
+            this.channel.bind('firework-trigger', (data) => {
+                this.textarea += `🚀 ${moment().format('DD.MM.YY LTS')}: ${JSON.stringify(data)}\n`
+            });
+
+
+
         },
         data() {
             return {

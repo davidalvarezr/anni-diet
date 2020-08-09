@@ -12,10 +12,13 @@ class FireworkEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
+    private $event;
 
-    public function __construct($message)
+
+    public function __construct($message, $event)
     {
         $this->message = $message;
+        $this->event = $event;
     }
 
     public function broadcastOn()
@@ -25,7 +28,7 @@ class FireworkEvent implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'firework-event';
+        return $this->event;
     }
 }
 

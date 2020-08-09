@@ -4,8 +4,6 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-
-
 require('bootstrap') // need for the dropdown menu to logout
 
 import axios from 'axios'
@@ -14,6 +12,7 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue"
 import Vue from 'vue'
 import MainMenu from "./components/MainMenu"
 import WebSocketEmitter from "./components/WebSocketEmitter"
+import FireworkTrigger from "./components/FireworkTrigger";
 import WebSockerReceiver from "./components/WebSockerReceiver"
 
 Vue.use(BootstrapVue)
@@ -30,8 +29,9 @@ Vue.use(IconsPlugin)
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('main-menu', MainMenu);
-Vue.component('web-socket-emitter', WebSocketEmitter);
+Vue.component('main-menu', MainMenu)
+Vue.component('web-socket-emitter', WebSocketEmitter)
+Vue.component('firework-trigger', FireworkTrigger)
 Vue.component('web-socket-receiver', WebSockerReceiver)
 
 /**

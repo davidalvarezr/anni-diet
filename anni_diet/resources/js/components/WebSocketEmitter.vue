@@ -11,8 +11,8 @@
                         <b-input placeholder="y" v-model="y"></b-input>
                         <b-input placeholder="z" v-model="z"></b-input>
                         <b-input placeholder="type" v-model="type"></b-input>
-                        <b-button class="mt-2" variant="success" @click="broadcast(author)">
-                            broadcast (send)
+                        <b-button class="mt-2" variant="success" @click="broadcast()">
+                            🎯 broadcast (send)
                         </b-button>
                     </b-form-group>
 
@@ -38,8 +38,7 @@ export default {
         }
     },
     methods: {
-        broadcast(inputToBroadcast) {
-
+        broadcast() {
 
             this.$axios.post('/api/firework/broadcast', {
                 x: this.x,

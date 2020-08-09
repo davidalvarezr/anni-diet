@@ -7,7 +7,7 @@ use App\Models\Firework;
 class FireworkRepository implements FireworkRepositoryInterface {
 
     public function getAllFireworksNotTriggered() {
-        $fireworks = Firework::whereDoesntHave('triggered_by')->get();
+        $fireworks = Firework::whereDoesntHave('triggeredBy')->get();
         return $fireworks;
     }
 

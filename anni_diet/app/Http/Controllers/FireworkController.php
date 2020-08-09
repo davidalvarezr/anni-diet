@@ -19,7 +19,6 @@ class FireworkController extends Controller
     }
 
     public function broadcast(FireworkBroadcast $r) {
-
         $validatedData = $r->validated();
 
         // get the current user
@@ -44,8 +43,32 @@ class FireworkController extends Controller
             'y' => $validatedData['y'],
             'z' => $validatedData['z'],
             'type' => $validatedData['type'],
-        ]));
-        return "OK";
+        ], 'firework-placement'));
+        return "event: firework-placement";
+    }
+
+    // TODO: check that people can only trigger their own fireworks
+    public function trigger(Request $r) {
+        $fireworkIds = $r->validate([
+            'firework_ids' => ['required', 'array'],
+            'firework_ids.*' => ['integer'],
+        ])['firework_ids'];
+
+        // TODO: filter the id so that the user can only delete his own
+        $fireworksToLaunch = Firework::whereIn('id', $fireworkIds);
+
+        $launched = $fireworksToLaunch->get()->all();
+
+        $fireworksToLaunch->delete();
+
+//        // Delete it from the DB
+//        Firework::destroy($fireworkIds);
+
+        if (count($launched) > 0) {
+            event(new FireworkEvent($fireworkIds, 'firework-trigger'));
+        }
+
+        return "event: firework-trigger";
     }
 
     public function allFireworksNotTriggered()

@@ -17,6 +17,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('firework/broadcast', 'FireworkController@broadcast')->name('firework-api-broadcast');
 
+    Route::post('firework/trigger', 'FireworkController@trigger')->name('firework-api-trigger');
+
     Route::get('firework/all-not-triggered', 'FireworkController@allFireworksNotTriggered')
         ->name('firework-api-all-not-triggered');
 
