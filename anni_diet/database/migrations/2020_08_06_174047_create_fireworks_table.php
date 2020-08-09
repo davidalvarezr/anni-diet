@@ -21,7 +21,14 @@ class CreateFireworksTable extends Migration
             $table->string('z');
             $table->string('type');
 
-            $table->foreignId('user_id')->constrained();
+
+            $table->foreignId('triggered_by')
+                ->nullable()
+                ->references('id')->on('users');
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onDelete('cascade');
         });
     }
 
@@ -34,6 +41,7 @@ class CreateFireworksTable extends Migration
     {
         Schema::table('fireworks', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['triggered_by']);
         });
         Schema::dropIfExists('fireworks');
     }
