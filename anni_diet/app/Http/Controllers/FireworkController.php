@@ -41,10 +41,11 @@ class FireworkController extends Controller
         ]);
         $firework->user()->associate($user);
         $firework->save();
+        $firework->fresh();
 
-        // TODO: Add the id
         event(new FireworkEvent([
-            'author' => $validatedData['author'],
+            'id' => $firework->getKey(),
+            'author' => $firework->user->name,
             'x' => $validatedData['x'],
             'y' => $validatedData['y'],
             'z' => $validatedData['z'],
