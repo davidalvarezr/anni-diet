@@ -11,6 +11,7 @@ public class PusherManager : MonoBehaviour
     public static PusherManager instance = null;
     private Pusher pusher;
     private Channel channel;
+    public PEvent<FireworkInfo> pe;
 
     private const string PUSHER_KEY = "8c2980cfa587778b9cf5";
     private const string PUSHER_CLUSTER = "eu";
@@ -71,8 +72,12 @@ public class PusherManager : MonoBehaviour
 
             try
             {
-                PEvent<FireworkInfo> pe = new PEvent<FireworkInfo>(pusherEvent);
+                pe = new PEvent<FireworkInfo>(pusherEvent);
                 Debug.Log(pe);
+                              
+                //var fVFX = new FireworksVFX(pe.data.author, float.Parse(pe.data.x), float.Parse(pe.data.y));
+                //fVFX.Throwfirework();
+
             } catch (Exception e)
             {
                 Debug.LogError($"{e.GetType()} - {e.Message}\n{e.StackTrace}");
