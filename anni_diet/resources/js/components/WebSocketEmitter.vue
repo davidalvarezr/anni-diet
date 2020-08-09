@@ -12,7 +12,9 @@
                         <b-input placeholder="y" v-model="y"></b-input>
                         <b-input placeholder="z" v-model="z"></b-input>
                         <b-input placeholder="type" v-model="type"></b-input>
-                        <b-button @click="broadcast(author)">ok</b-button>
+                        <b-button class="mt-2" variant="success" @click="broadcast(author)">
+                            broadcast (send)
+                        </b-button>
                     </b-form-group>
 
                 </b-card>
@@ -23,42 +25,41 @@
 </template>
 
 <script lang="js">
-    export default {
-        props: [],
-        mounted() {
+export default {
+    props: [],
+    mounted() {
 
-        },
-        data() {
-            return {
-                author: 'test',
-                x: '1',
-                y: '2',
-                z: '3',
-                type: 'basic',
-            }
-        },
-        methods: {
-            broadcast(inputToBroadcast) {
+    },
+    data() {
+        return {
+            author: 'test',
+            x: '1',
+            y: '2',
+            z: '3',
+            type: 'basic',
+        }
+    },
+    methods: {
+        broadcast(inputToBroadcast) {
 
 
-
-                this.$axios.post('/api/firework/broadcast', {
-                    author: this.author,
-                    x: this.x,
-                    y: this.y,
-                    z: this.z,
-                    type: this.type,
-                })
+            this.$axios.post('/api/firework/broadcast', {
+                author: this.author,
+                x: this.x,
+                y: this.y,
+                z: this.z,
+                type: this.type,
+            })
                 .then(response => {
                 })
 
-            }
-        },
-        computed: {}
-    }
+        }
+    },
+    computed: {}
+}
 </script>
 
 <style scoped lang="scss">
-    .web-socket-emitter {
-    }
+.web-socket-emitter {
+}
 </style>

@@ -15,6 +15,9 @@
                             rows="3"
                             max-rows="6"
                         ></b-form-textarea>
+                        <b-button class="mt-2" variant="danger" @click="reset">
+                            reset
+                        </b-button>
                     </b-form-group>
 
                 </b-card>
@@ -62,7 +65,11 @@
                 textarea: '',
             }
         },
-        methods: {},
+        methods: {
+            reset() {
+              this.textarea = ''
+            },
+        },
         computed: {}
     }
 
