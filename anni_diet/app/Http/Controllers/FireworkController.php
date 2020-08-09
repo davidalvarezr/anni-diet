@@ -2,36 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FireworkBroadcast;
 use App\Models\Firework;
 use App\Models\FireworkEvent;
+use App\Repositories\FireworkRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class FireworkController extends Controller
 {
-    public function broadcast(Request $r) {
 
-        $validator = Validator::make($r->all(), [
-            'author' => 'string',
-            'type' => 'string',
-            'x' => 'regex:/^[0-9]+$/',
-            'y' => 'regex:/^[0-9]+$/',
-            'z' => 'regex:/^[0-9]+$/',
-        ]);
+    private FireworkRepository $fireworkRepository;
 
-        if ($validator->fails()) {
-            return response()->json([
-                'validation_errors' => $validator->errors()
-            ], 422);
-        }
+    public function __construct(FireworkRepository $fireworkRepository) {
+        $this->fireworkRepository = $fireworkRepository;
+    }
 
-        $validatedData = $validator->validated();
+    public function broadcast(FireworkBroadcast $r) {
 
+        $validatedData = $r->validated();
 
-        // TODO: get the current user
+        // get the current user
         $user = $r->user();
 
-        // TODO: store the firework in the database
+        // store the firework in the database
         $firework = new Firework();
         $firework->fill([
             'x' => $validatedData['x'],
@@ -53,4 +47,15 @@ class FireworkController extends Controller
         ]));
         return "OK";
     }
+
+    public function allFireworksNotTriggered()
+    {
+        $fireworks = $this->fireworkRepository->getAllFireworksNotTriggered();
+        return response()->json([
+            'fireworks' => $fireworks,
+        ]);
+    }
+
+
+
 }

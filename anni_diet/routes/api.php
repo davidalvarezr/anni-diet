@@ -17,8 +17,12 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('firework/broadcast', 'FireworkController@broadcast')->name('firework-api-broadcast');
 
+    Route::get('firework/all-not-triggered', 'FireworkController@allFireworksNotTriggered')
+        ->name('firework-api-all-not-triggered');
+
     Route::post('pusher/auth', 'PusherController@auth')->name('pusher-api-auth');
 
-    Route::get('protected-resource-test', 'CheckApiController@checkApiAccess')->name('login-check-api-access');
+    Route::get('protected-resource-test', 'CheckApiController@checkApiAccess')
+        ->name('login-check-api-access');
 
 });

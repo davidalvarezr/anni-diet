@@ -1,6 +1,6 @@
 <template>
 
-    <b-container class="web-socker-receiver">
+    <b-container fluid class="web-socker-receiver">
         <b-row align-h="center">
             <b-col md="8">
 

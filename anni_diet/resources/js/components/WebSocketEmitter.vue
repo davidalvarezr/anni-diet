@@ -1,5 +1,5 @@
 <template>
-    <b-container class="web-socket-emitter">
+    <b-container fluid class="web-socket-emitter">
         <b-row align-h="center">
             <b-col md="8">
 
@@ -7,7 +7,6 @@
 
                     <p>Infos feu d'artifice:</p>
                     <b-form-group>
-                        <b-input placeholder="author" v-model="author"></b-input>
                         <b-input placeholder="x" v-model="x"></b-input>
                         <b-input placeholder="y" v-model="y"></b-input>
                         <b-input placeholder="z" v-model="z"></b-input>
@@ -32,7 +31,6 @@ export default {
     },
     data() {
         return {
-            author: 'test',
             x: '1',
             y: '2',
             z: '3',
@@ -44,7 +42,6 @@ export default {
 
 
             this.$axios.post('/api/firework/broadcast', {
-                author: this.author,
                 x: this.x,
                 y: this.y,
                 z: this.z,
