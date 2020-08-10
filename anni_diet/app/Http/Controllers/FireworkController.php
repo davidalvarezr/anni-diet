@@ -14,11 +14,13 @@ class FireworkController extends Controller
 
     private FireworkRepository $fireworkRepository;
 
-    public function __construct(FireworkRepository $fireworkRepository) {
+    public function __construct(FireworkRepository $fireworkRepository)
+    {
         $this->fireworkRepository = $fireworkRepository;
     }
 
-    public function broadcast(FireworkBroadcast $r) {
+    public function broadcast(FireworkBroadcast $r)
+    {
         $validatedData = $r->validated();
 
         // get the current user
@@ -48,11 +50,21 @@ class FireworkController extends Controller
     }
 
     // TODO: check that people can only trigger their own fireworks
-    public function trigger(Request $r) {
-        $fireworkIds = $r->validate([
-            'firework_ids' => ['required', 'array'],
-            'firework_ids.*' => ['integer'],
-        ])['firework_ids'];
+    public function trigger(Request $r)
+    {
+        $rules = [];
+
+        if (is_array($r->firework_ids)) {    // if call from web
+            $rules = [
+                'firework_ids' => ['required', 'array'],
+                'firework_ids.*' => ['integer'],
+            ];
+            $fireworkIds = $r->validate($rules)['firework_ids'];
+        } else {                            // else call from unity
+            $rules = ['firework_ids' => ['string', 'regex:/^[1-9]\d*(\s*,\s*[1-9]\d*)*$/']];
+            $validatedData = $r->validate($rules);
+            $fireworkIds = explode(',', $validatedData['firework_ids']);
+        }
 
         // TODO: filter the id so that the user can only delete his own
         $fireworksToLaunch = Firework::whereIn('id', $fireworkIds);
@@ -78,7 +90,6 @@ class FireworkController extends Controller
             'fireworks' => $fireworks,
         ]);
     }
-
 
 
 }
