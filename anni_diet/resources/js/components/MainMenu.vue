@@ -12,8 +12,8 @@
                     </b-button>
 
                     <b-button class="b-button" variant="warning">
-                        Consulter les demandes d'authentification
-                        <b-icon icon="unlock"></b-icon>
+                        Création de zones
+                        <b-icon icon="caret-down-fill"></b-icon>
                     </b-button>
 
                     <b-button class="b-button" variant="success">

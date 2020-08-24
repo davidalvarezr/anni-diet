@@ -20,6 +20,9 @@
                         </b-button>
                     </b-form-group>
 
+                    <!-- TODO: show places. Foreach place, show a graph with firework placement -->
+                    <place :fireworks="[]" :id="42" name="jean"  />
+
                 </b-card>
 
             </b-col>
@@ -30,8 +33,9 @@
 
 <script lang="js">
 
-    import moment from "moment";
+    import moment from "moment"
     import Pusher from 'pusher-js/with-encryption'
+    import Place from "./Place"
 
     export default {
         name: 'web-socker-receiver',
@@ -39,6 +43,10 @@
             pusherAppKey: {String, required: true},
             pusherAppCluster: {String, required: true},
             pusherAuthEndpoint: {String, required: true},
+            places: {Array, required: true}
+        },
+        components: {
+            Place,
         },
         mounted() {
             moment.locale('fr')

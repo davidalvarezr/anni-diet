@@ -28,6 +28,7 @@ class FireworkBroadcast extends FormRequest
             'x' => ['regex:/^-*(\d+[.,]\d+|\d+)$/'],
             'y' => ['regex:/^-*(\d+[.,]\d+|\d+)$/'],
             'z' => ['regex:/^-*(\d+[.,]\d+|\d+)$/'],
+            'place_id' => ['required', 'integer'],
         ];
     }
 }

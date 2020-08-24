@@ -11,6 +11,7 @@
                         <b-input placeholder="y" v-model="y"></b-input>
                         <b-input placeholder="z" v-model="z"></b-input>
                         <b-input placeholder="type" v-model="type"></b-input>
+                        <b-input placeholder="place id" v-model="placeId"></b-input>
                         <b-button class="mt-2" variant="success" @click="broadcast()">
                             🎯 broadcast (send)
                         </b-button>
@@ -35,6 +36,7 @@ export default {
             y: '2',
             z: '3',
             type: 'basic',
+            placeId: 1,
         }
     },
     methods: {
@@ -45,6 +47,7 @@ export default {
                 y: this.y,
                 z: this.z,
                 type: this.type,
+                place_id: this.placeId,
             })
                 .then(response => {
                 })

@@ -35,6 +35,7 @@ class FireworkController extends Controller
             'type' => $validatedData['type'],
         ]);
         $firework->user()->associate($user);
+        $firework->place()->associate($validatedData['place_id']);
         $firework->save();
         $firework->fresh();
 
@@ -45,6 +46,7 @@ class FireworkController extends Controller
             'y' => $validatedData['y'],
             'z' => $validatedData['z'],
             'type' => $validatedData['type'],
+            'place_id' => $validatedData['place_id'],
         ], 'firework-placement'));
         return "event: firework-placement";
     }

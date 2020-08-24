@@ -38,4 +38,9 @@ class Firework extends Model
         return $this->triggeredBy() !== null;
     }
 
+    public function place()
+    {
+        return $this->belongsTo(Place::class);
+    }
+
 }
