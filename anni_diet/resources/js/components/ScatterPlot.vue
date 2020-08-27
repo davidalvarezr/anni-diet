@@ -11,10 +11,18 @@ export default {
         // If you want to pass options please create a local options object
         this.renderChart(this.chartData, this.options)
     },
+
+    // When data or options change, draw the chart again
     watch: {
         chartData () {
             this.renderChart(this.chartData, this.options)
-        }
+        },
+        // options() {
+        //     this.renderChart(this.chartData, this.options)
+        // }
+    },
+    methods: {
+
     }
 }
 

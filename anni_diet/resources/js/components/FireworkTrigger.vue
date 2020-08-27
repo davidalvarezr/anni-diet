@@ -6,7 +6,7 @@
                          v-model="triggerIds"
                          placeholder="firework ids, separated by ',' (commas)"
                 />
-                <b-button
+                <b-button class="mt-2"
                     variant="primary"
                     :disabled="triggerIdsArray.length === 0"
                     @click="trigger">

@@ -13,5 +13,7 @@
         pusher-app-key="{{ env('PUSHER_APP_KEY') }}"
         pusher-app-cluster="{{ env('PUSHER_APP_CLUSTER') }}"
         pusher-auth-endpoint="{{ route('pusher-api-auth') }}"
+        :places="{{ $places }}"
+        :fireworks="{{ $fireworks }}"
     ></web-socket-receiver>
 @endsection
